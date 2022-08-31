@@ -10,22 +10,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Language> languages = [];
 
-  List<Language> languages = [
-    Language("Android Nativo", "Linguagens C, Java, Kotlin"),
-    Language("IOS Nativo", "Linguagens Objective C e Swift"),
-    Language("Flutter", "Linguagens DART"),
-    Language("React Native", "Linguagens TypeScript e JavaScript"),
-    Language("PWA", "..."),
-    Language("Ionic", "...")
-  ];
   List<String> choices = ["Android Nativo", "IOS Nativo", "Flutter", "React Native", "PWA", "Ionic"];
   Widget title = const Text("Minhas linguagens");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: title),
+      appBar: AppBar(
+        title: title,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _goToAddLanguage
+          )
+        ]
+      ),
       body: Column(children: [
         Wrap(
           spacing: 10,
@@ -36,6 +37,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ))
       ]),
     );
+  }
+
+  void _goToAddLanguage(){
+    Future future = Navigator.pushNamed(context, "/add");
+    future.then((Language) => setState((){
+      languages.add(Language);
+    }));
   }
 
   List<Widget> buildItemsList(){
